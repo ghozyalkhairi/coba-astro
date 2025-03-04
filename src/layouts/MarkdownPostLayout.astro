@@ -1,0 +1,36 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+import "../styles/blog.css"
+const { frontmatter } = Astro.props;
+---
+<BaseLayout pageTitle={frontmatter.title}>
+    <article class="markdown-post">
+      <header class="post-header">
+        {frontmatter.image && (
+          <img src={frontmatter.image.url} alt={frontmatter.image.alt} class="post-image" />
+        )}
+        <div class="post-meta">
+          <span class="post-author">By {frontmatter.author}</span>
+          {frontmatter.pubDate && (
+            <time class="post-date" datetime={frontmatter.pubDate}>
+              {new Date(frontmatter.pubDate).toLocaleDateString()}
+            </time>
+          )}
+        </div>
+      </header>
+    
+      <section class="post-content">
+        <slot />
+      </section>
+    
+      {frontmatter.tags && frontmatter.tags.length > 0 && (
+        <footer class="post-footer">
+          <div class="post-tags">
+            {frontmatter.tags.map((tag: any) => (
+              <span class="tag" >{tag}</span>
+            ))}
+          </div>
+        </footer>
+      )}
+    </article>
+</BaseLayout>
